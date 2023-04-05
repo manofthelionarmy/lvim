@@ -17,6 +17,10 @@ vim.o.relativenumber = true
 lvim.transparent_window = true
 lvim.reload_config_on_save = false
 vim.o.autochdir = true
+
+lvim.builtin.alpha.dashboard.section.header.val = require('modules/alpha').alpha_header
+-- TODO: configure lualine
+
 -- lvim.reload.enable = false
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
@@ -24,15 +28,22 @@ vim.o.autochdir = true
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "\\"
 -- add your own keymapping
-lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+-- lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
 lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
+
+-- NvimTree
 lvim.keys.normal_mode["tn"] = ":NvimTreeToggle<CR>"
+
+-- Telescope
+lvim.keys.normal_mode["<leader>gu"] = ":Gitsigns reset_hunk<CR>"
 lvim.keys.normal_mode["<space>td"] = ":lua require('telescope.builtin').find_files({ cwd = vim.fn.expand('%:p:h') })<CR>"
-lvim.keys.normal_mode["<space>t`"] = ":lua require('telescope.builtin').buffers()<CR>"
+lvim.keys.normal_mode["<space>t`"] = ":lua require('telescope.builtin').buffers({initial_mode = 'insert'})<CR>"
 lvim.keys.normal_mode["<space>o"] = ":lua require('modules/fuzzy').document_symbols()<CR>"
 lvim.keys.normal_mode["<space>a"] = ":lua require('modules/fuzzy').diagnostics()<CR>"
 lvim.keys.normal_mode["<leader>tc"] = ":lua require('modules/searchconfigs').search_configs()<CR>"
+
+-- Shift Blocks of Code
 lvim.keys.visual_block_mode["<S-j>"] = ":m '>+1<CR>gv-gv"
 lvim.keys.visual_block_mode["<S-k>"] = ":m '<-2<CR>gv-gv"
 
@@ -82,9 +93,27 @@ lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.terminal.active = true
 lvim.builtin.comment.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
-lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
+lvim.builtin.nvimtree.setup.renderer.icons.show.git = true
+lvim.builtin.nvimtree.setup.git.ignore = true
+lvim.builtin.nvimtree.setup.update_focused_file.ignore_list = { "\\.git", "node_modules", "\\.cache", "vendor", "plugin" }
+lvim.builtin.nvimtree.setup.filters = {
+  dotfiles = false,
+  custom = { "node_modules", "\\.git", "\\.cache", "vendor", "plugin" },
+  exclude = { ".gitlab_ci.yaml" }
+}
+lvim.builtin.nvimtree.setup.diagnostics = {
+  enable = true, -- neat, it works with nvim-lsp and coc :)
+  icons = {
+    hint = "",
+    info = "",
+    warning = "",
+    error = "",
+  }
+}
+lvim.builtin.nvimtree.setup.renderer.indent_markers.enable = true
 
 -- if you don't want all the parsers change this to a table of the ones you want
+-- TODO: figure out other highlights I need
 lvim.builtin.treesitter.ensure_installed = {
   "bash",
   "c",
@@ -98,18 +127,49 @@ lvim.builtin.treesitter.ensure_installed = {
   "rust",
   "java",
   "yaml",
+  "go",
+  "dockerfile",
+  "make",
+  "sql",
+  "html"
 }
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enable = true
+lvim.builtin.treesitter.rainbow.enable = true
+
+
+-- let g:gitgutter_sign_added              = '+'
+-- let g:gitgutter_sign_modified           = '~'
+-- let g:gitgutter_sign_removed            = '_'
+-- let g:gitgutter_sign_removed_first_line = '‾'
+-- let g:gitgutter_sign_removed_above_and_below = '_¯'
+-- let g:gitgutter_sign_modified_removed   = '~_'
+--
+-- GitSigns follow gitgutter
+lvim.builtin.gitsigns.opts.signs.add.text = "+"
+lvim.builtin.gitsigns.opts.signs.change.text = "~"
+lvim.builtin.gitsigns.opts.signs.delete.text = "_"
+lvim.builtin.gitsigns.opts.signs.changedelete.text = "~_"
+lvim.builtin.gitsigns.opts.signs.topdelete.text = "‾"
 
 -- generic LSP settings
 
 -- -- make sure server will always be installed even if the server is in skipped_servers list
--- lvim.lsp.installer.setup.ensure_installed = {
---     "sumneko_lua",
---     "jsonls",
--- }
+-- TODO: figure out other language servers to install
+-- TODO: try out emmetls
+lvim.lsp.installer.setup.ensure_installed = {
+  "sumneko_lua",
+  "jsonls",
+  "gopls",
+  "dockerls",
+  "yamlls",
+  "bashls",
+  "tsserver",
+  "html",
+  "cssls",
+  "sqls"
+}
 -- -- change UI setting of `LspInstallInfo`
 -- -- see <https://github.com/williamboman/nvim-lsp-installer#default-configuration>
 -- lvim.lsp.installer.setup.ui.check_outdated_servers_on_open = false
@@ -182,6 +242,18 @@ linters.setup {
   },
 }
 
+-- local code_actions = require "lvim.lsp.null-ls.code_actions"
+-- FIXME: this isn't working, it's becuase gomodify tags is available for later versions of null-ls
+-- // it's a pain in the butt to update plugins in lunar vim
+-- // a workaround for codeactions for go is to install vim-go
+--
+-- code_actions.setup {
+--   { name = "gomodifytags" },
+--   { name = "impl" },
+-- }
+
+-- local linters = require "lvim.lsp.null-ls.linters"
+
 -- Additional Plugins
 lvim.plugins = {
   {
@@ -190,24 +262,46 @@ lvim.plugins = {
   },
   {
     'christoomey/vim-tmux-navigator',
-    config = function()
-      vim.cmd('source ~/.config/lvim/tmux.vim')
-    end
   },
   {
     "folke/todo-comments.nvim",
     config = function()
       require("todo-comments").setup()
     end
-  }
+  },
+  {
+    'fatih/vim-go',
+    tag = "v1.28",
+  },
+  -- {
+  --   'tpope/vim-sensible'
+  -- }
+  -- TODO: install catpuccin
 }
 
+vim.cmd('source ~/.config/lvim/tmux.vim')
+vim.cmd('source ~/.config/lvim/vim-go.vim')
+vim.cmd('source ~/.config/lvim/tokyonight.vim')
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "Trouble" },
   -- enable wrap mode for json files only
   command = "nnoremap <silent> <buffer> <Esc> :q<CR>",
 })
+
+
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = { "*.hbs", "*.jet", "*.gohtml", "*.html" },
+  command = ":set ft=html"
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "qf" },
+  -- enable wrap mode for json files only
+  command = "nnoremap <silent> <buffer> <Esc> :q<CR>",
+})
+
+require('modules/icons')
 -- vim.api.nvim_create_autocmd("BufEnter", {
 --   pattern = { "*.json", "*.jsonc" },
 --   -- enable wrap mode for json files only

@@ -13,6 +13,7 @@ M.search_configs = function()
   opts.search_dirs = { home_dir .. config_dir }
   opts.path_display = { "absolute" }
   opts.cwd = home_dir .. config_dir
+  opts.file_ignore_patterns = {".git/", "node_modules/", "vendor/", "/plugin"}
   opts.find_command = {
     "rg",
     "--hidden",
