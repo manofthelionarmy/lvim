@@ -273,12 +273,18 @@ lvim.plugins = {
     'fatih/vim-go',
     tag = "v1.28",
   },
+  {
+    'ray-x/lsp_signature.nvim',
+    config = function()
+    end
+  }
   -- {
   --   'tpope/vim-sensible'
   -- }
   -- TODO: install catpuccin
 }
 
+require "lsp_signature".setup({ hint_prefix = "🙈 " })
 vim.cmd('source ~/.config/lvim/tmux.vim')
 vim.cmd('source ~/.config/lvim/vim-go.vim')
 vim.cmd('source ~/.config/lvim/tokyonight.vim')
