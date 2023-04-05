@@ -99,7 +99,7 @@ lvim.builtin.nvimtree.setup.update_focused_file.ignore_list = { "\\.git", "node_
 lvim.builtin.nvimtree.setup.filters = {
   dotfiles = false,
   custom = { "node_modules", "\\.git", "\\.cache", "vendor", "plugin" },
-  exclude = { ".gitlab_ci.yaml" }
+  exclude = { ".gitlab_ci.yaml", ".gitignore" }
 }
 lvim.builtin.nvimtree.setup.diagnostics = {
   enable = true, -- neat, it works with nvim-lsp and coc :)
