@@ -1,13 +1,3 @@
---[[
-lvim is the global options object
-
-Linters should be
-filled in as strings with either
-a global executable or a path to
-an executable
-]]
--- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
-
 -- general
 lvim.log.level = "none"
 lvim.format_on_save.enabled = true
@@ -43,7 +33,12 @@ lvim.keys.normal_mode["<space>o"] = ":lua require('modules/fuzzy').document_symb
 lvim.keys.normal_mode["<space>a"] = ":lua require('modules/fuzzy').diagnostics()<CR>"
 lvim.keys.normal_mode["<leader>tc"] = ":lua require('modules/searchconfigs').search_configs()<CR>"
 
--- Shift Blocks of Code
+-- Center cursorline
+lvim.keys.normal_mode["j"] = "jzz"
+lvim.keys.normal_mode["k"] = "kzz"
+lvim.keys.normal_mode["G"] = "Gzz"
+
+-- Shift Blocks of Code a la vs code
 lvim.keys.visual_block_mode["<S-j>"] = ":m '>+1<CR>gv-gv"
 lvim.keys.visual_block_mode["<S-k>"] = ":m '<-2<CR>gv-gv"
 
@@ -95,12 +90,10 @@ lvim.builtin.comment.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = true
 lvim.builtin.nvimtree.setup.git.ignore = true
-lvim.builtin.nvimtree.setup.update_focused_file.ignore_list = { "\\.git", "node_modules", "\\.cache", "vendor", "plugin" }
-lvim.builtin.nvimtree.setup.filters = {
-  dotfiles = false,
-  custom = { "node_modules", "\\.git", "\\.cache", "vendor", "plugin" },
-  exclude = { ".gitlab_ci.yaml", ".gitignore" }
-}
+lvim.builtin.nvimtree.setup.update_focused_file.ignore_list = { "^\\.git$", "^node_modules$", "^\\.cache$", "vendor",
+  "plugin$" }
+lvim.builtin.nvimtree.setup.filters.custom = { "node_modules", "^\\.git$", "^\\.cache$", "vendor$", "plugin$" }
+lvim.builtin.nvimtree.setup.filters.exclude = { ".gitlab_ci.yaml", ".gitignore", ".gitlab_ci.yml" }
 lvim.builtin.nvimtree.setup.diagnostics = {
   enable = true, -- neat, it works with nvim-lsp and coc :)
   icons = {
@@ -111,6 +104,19 @@ lvim.builtin.nvimtree.setup.diagnostics = {
   }
 }
 lvim.builtin.nvimtree.setup.renderer.indent_markers.enable = true
+
+lvim.builtin.telescope.defaults.file_ignore_patterns = { ".git/", "node_modules/", "vendor/" }
+
+-- local components = require('lvim.core.lualine.components')
+-- components.diagnostics.symbols.error = ''
+-- components.diagnostics.symbols.hint = ''
+-- components.diagnostics.symbols.info = ''
+-- components.diagnostics.symbols.warn = ''
+
+
+-- loading the components into here
+-- maybe better to copy the components from that file and put in my config, in the event they change stuff
+lvim.builtin.lualine.sections = require('modules/lualine').configure()
 
 -- if you don't want all the parsers change this to a table of the ones you want
 -- TODO: figure out other highlights I need
@@ -168,7 +174,8 @@ lvim.lsp.installer.setup.ensure_installed = {
   "tsserver",
   "html",
   "cssls",
-  "sqls"
+  "sqls",
+  "emmet_ls"
 }
 -- -- change UI setting of `LspInstallInfo`
 -- -- see <https://github.com/williamboman/nvim-lsp-installer#default-configuration>
@@ -272,6 +279,7 @@ lvim.plugins = {
   {
     'fatih/vim-go',
     tag = "v1.28",
+    filetypes = { 'go', 'gomod' }
   },
   {
     'ray-x/lsp_signature.nvim',
