@@ -2,7 +2,8 @@
 lvim.log.level = "none"
 lvim.format_on_save.enabled = true
 lvim.lint_on_save = true
-lvim.colorscheme = "lunar"
+-- lvim.colorscheme = "lunar"
+lvim.colorscheme = "catppuccin"
 vim.o.relativenumber = true
 lvim.transparent_window = true
 lvim.reload_config_on_save = false
@@ -285,6 +286,9 @@ lvim.plugins = {
     'ray-x/lsp_signature.nvim',
     config = function()
     end
+  },
+  {
+    'catppuccin/nvim',
   }
   -- {
   --   'tpope/vim-sensible'
@@ -292,10 +296,16 @@ lvim.plugins = {
   -- TODO: install catpuccin
 }
 
+-- Load stuff for my plugins
 require "lsp_signature".setup({ hint_prefix = "🙈 " })
 vim.cmd('source ~/.config/lvim/tmux.vim')
 vim.cmd('source ~/.config/lvim/vim-go.vim')
-vim.cmd('source ~/.config/lvim/tokyonight.vim')
+if lvim.colorscheme ~= "catppuccin" then
+  vim.cmd('source ~/.config/lvim/tokyonight.vim')
+else
+  require("modules/catpuccin")
+  lvim.builtin.bufferline.highlights = require("catppuccin.groups.integrations.bufferline").get()
+end
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "Trouble" },
