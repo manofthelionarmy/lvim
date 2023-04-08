@@ -34,7 +34,9 @@ lvim.keys.normal_mode["<space>td"] = ":lua require('telescope.builtin').find_fil
 lvim.keys.normal_mode["<leader>tt"] = ":lua require('telescope.builtin').find_files()<CR>"
 lvim.keys.normal_mode["<space>t`"] = ":lua require('telescope.builtin').buffers({initial_mode = 'insert'})<CR>"
 lvim.keys.normal_mode["<space>o"] = ":lua require('modules/fuzzy').document_symbols()<CR>"
+lvim.keys.normal_mode["<space>O"] = ":lua require('modules/fuzzy').workspace_symbols()<CR>"
 lvim.keys.normal_mode["<space>a"] = ":lua require('modules/fuzzy').diagnostics()<CR>"
+lvim.keys.normal_mode["<space>A"] = ":Trouble document_diagnostics<CR>"
 lvim.keys.normal_mode["<leader>tc"] = ":lua require('modules/searchconfigs').search_configs()<CR>"
 
 -- Center cursorline
@@ -110,6 +112,7 @@ lvim.builtin.nvimtree.setup.diagnostics = {
 lvim.builtin.nvimtree.setup.renderer.indent_markers.enable = true
 
 lvim.builtin.telescope.defaults.file_ignore_patterns = { ".git/", "node_modules/", "vendor/" }
+lvim.builtin.telescope.defaults.env = { COLORTERM = "truecolor" }
 
 -- local components = require('lvim.core.lualine.components')
 -- components.diagnostics.symbols.error = ''
