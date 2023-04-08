@@ -10,6 +10,7 @@ M.document_symbols = function()
   -- local themes = require('telescope.themes')
   -- builtin.find_files(themes.get_ivy())
   local opts = {}
+  opts.results_title = false
   opts.layout_strategy = "bottom_pane"
   opts.sorting_strategy = "ascending"
   opts.layout_config = {
@@ -20,14 +21,19 @@ M.document_symbols = function()
     horizontal = { mirror = false },
     vertical = { mirror = false },
   }
-  opts.prompt_title = ""
+  opts.border = true
+  opts.borderchars = {
+    prompt = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+    results = { "─", "│", "─", "│", "╭", "╮", "┤", "├" },
+    preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+  }
   -- builtin.lsp_document_symbols(themes.get_cursor())
   builtin.lsp_document_symbols(opts)
 end
 
 M.diagnostics = function()
   local opts = {}
-  opts.prompt_title = ""
+  opts.results_title = false
   opts.layout_strategy = "bottom_pane"
   opts.sorting_strategy = "ascending"
   opts.layout_config = {
@@ -37,6 +43,11 @@ M.diagnostics = function()
     -- preview_cutoff = 120,
     horizontal = { mirror = false },
     vertical = { mirror = false },
+  }
+  opts.borderchars = {
+    prompt = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+    results = { "─", "│", "─", "│", "╭", "╮", "┤", "├" },
+    preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
   }
   builtin.diagnostics(opts)
 end
