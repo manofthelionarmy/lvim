@@ -5,7 +5,7 @@ lvim.lint_on_save = true
 -- lvim.colorscheme = "lunar"
 lvim.colorscheme = "catppuccin"
 vim.o.relativenumber = true
-lvim.transparent_window = false
+lvim.transparent_window = true
 lvim.reload_config_on_save = false
 vim.o.autochdir = true
 

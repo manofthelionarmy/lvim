@@ -31,7 +31,12 @@ require("catppuccin").setup {
       -- ALEWarningSign = { fg = colors.yellow },
       -- AleWarningLine = { fg = colors.peach, style = { "bold", "undercurl" } },
       -- AleVirtualTextWarning = { fg = colors.peach, style = { "bold", "undercurl" } },
-      NvimTreeNormal = { bg = colors.none }
+      NvimTreeNormal = { bg = colors.none },
+      TelescopeNormal = { bg = colors.base },
+      TelescopeBorder = { bg = colors.base },
+      TelescopeResultsBorder = { bg = colors.base },
+      TelescopePromptBorder = { bg = colors.base },
+      -- Normal = { bg = "NONE", fg = "NONE" }
     }
   end
 }
