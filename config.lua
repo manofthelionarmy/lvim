@@ -5,7 +5,7 @@ lvim.lint_on_save = true
 -- lvim.colorscheme = "lunar"
 lvim.colorscheme = "catppuccin"
 vim.o.relativenumber = true
-lvim.transparent_window = true
+lvim.transparent_window = false
 lvim.reload_config_on_save = false
 vim.o.autochdir = true
 
@@ -27,8 +27,11 @@ lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
 lvim.keys.normal_mode["tn"] = ":NvimTreeToggle<CR>"
 
 -- Telescope
-lvim.keys.normal_mode["<leader>gu"] = ":Gitsigns reset_hunk<CR>"
+-- The reasone this doesn't remap because which key maps it to undo stage hunk
+-- reset_hunk is mapped to <leader>gr in which key
+-- lvim.keys.normal_mode["<leader>gu"] = ":lua require('gitsigns').reset_hunk()<cr>"
 lvim.keys.normal_mode["<space>td"] = ":lua require('telescope.builtin').find_files({ cwd = vim.fn.expand('%:p:h') })<CR>"
+lvim.keys.normal_mode["<leader>tt"] = ":lua require('telescope.builtin').find_files()<CR>"
 lvim.keys.normal_mode["<space>t`"] = ":lua require('telescope.builtin').buffers({initial_mode = 'insert'})<CR>"
 lvim.keys.normal_mode["<space>o"] = ":lua require('modules/fuzzy').document_symbols()<CR>"
 lvim.keys.normal_mode["<space>a"] = ":lua require('modules/fuzzy').diagnostics()<CR>"
