@@ -93,6 +93,9 @@ lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.terminal.active = true
 lvim.builtin.comment.active = true
+lvim.builtin.bufferline.options.always_show_bufferline = true
+-- This is mapped to navic
+lvim.builtin.breadcrumbs.active = false
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = true
 lvim.builtin.nvimtree.setup.git.ignore = true
