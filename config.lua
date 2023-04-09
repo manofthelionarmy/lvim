@@ -1,6 +1,8 @@
 -- general
 lvim.log.level = "none"
 lvim.format_on_save.enabled = true
+-- May have to update this whenever I wan to lint on save
+lvim.format_on_save.pattern = { "*.lua", "*.javascript", "*.go", "*.html", "*.gohtml", "*.tmpl" }
 lvim.lint_on_save = true
 -- lvim.colorscheme = "lunar"
 lvim.colorscheme = "catppuccin"
@@ -252,11 +254,11 @@ linters.setup {
     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
     extra_args = { "--severity", "warning" },
   },
-  {
-    command = "codespell",
-    ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
-    filetypes = { "javascript", "python" },
-  },
+  -- {
+  --   command = "codespell",
+  --   ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
+  --   filetypes = { "javascript", "python" },
+  -- },
 }
 
 -- local code_actions = require "lvim.lsp.null-ls.code_actions"
@@ -302,11 +304,10 @@ lvim.plugins = {
   -- {
   --   'tpope/vim-sensible'
   -- }
-  -- TODO: install catpuccin
 }
 
 -- Load stuff for my plugins
-require "lsp_signature".setup({ hint_prefix = "🙈 " })
+require "lsp_signature".setup({ hint_prefix = "🙈 ", max_height = 10, max_width = 60 })
 vim.cmd('source ~/.config/lvim/tmux.vim')
 vim.cmd('source ~/.config/lvim/vim-go.vim')
 if lvim.colorscheme ~= "catppuccin" then
@@ -349,21 +350,7 @@ require('modules/icons')
 -- })
 -- Emmet is part of the skipped servers. I have to configure it myself, or remove it from skipped servers list
 -- https://www.lunarvim.org/docs/troubleshooting#update-node
-local lspconfig = require('lspconfig')
-local configs = require('lspconfig/configs')
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-lspconfig.emmet_ls.setup({
-  -- on_attach = on_attach,
-  capabilities = capabilities,
-  filetypes = { 'html', 'typescriptreact', 'javascriptreact', 'css', 'sass', 'scss', 'less' },
-  init_options = {
-    html = {
-      options = {
-        -- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267
-        ["bem.enabled"] = true,
-      },
-    },
-  }
-})
+-- Make sure to run LvimCacheReset
+vim.tbl_map(function(server)
+  return server ~= "emmet_ls"
+end, lvim.lsp.automatic_configuration.skipped_servers)
