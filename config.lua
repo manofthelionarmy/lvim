@@ -11,8 +11,35 @@ lvim.transparent_window = true
 lvim.reload_config_on_save = false
 vim.o.autochdir = true
 
+local cmp = require('cmp')
+-- found this on reddit, this really helped me :)
+local compare = require('cmp.config.compare')
+local comparators = {
+  -- compare.score_offset, -- not good at all
+  compare.score, -- based on :  score = score + ((#sources - (source_index - 1)) * sorting.priority_weight)
+  compare.locality,
+  -- NOTE: disable recently_used
+  -- compare.recently_used, -- disable this
+  compare.offset,
+  compare.order,
+  -- compare.scopes, -- what?
+  -- compare.sort_text,
+  -- compare.exact,
+  -- compare.kind,
+  -- compare.length, -- useless
+}
+-- Enable preselection
+lvim.builtin.cmp.preselect = cmp.PreselectMode.Item
+-- lvim.builtin.cmp.confirm_opts.select = true
+-- Was trying to autocomplete first preselected item
+-- lvim.builtin.cmp.confirm = { select = true, behavior = cmp.ConfirmBehavior.Replace }
+
+-- NOTE: Very important to set this, this ensures we don't sort completion items
+-- and that preselect will always highlight first completion item
+lvim.builtin.cmp.sorting = { priority_weight = 1.0, comparators = comparators }
+-- lvim.builtin.cmp.matching = { disallow_fuzzy_matching = true }
+
 lvim.builtin.alpha.dashboard.section.header.val = require('modules/alpha').alpha_header
--- TODO: configure lualine
 
 -- lvim.reload.enable = false
 -- to disable icons and use a minimalist setup, uncomment the following
@@ -35,11 +62,14 @@ lvim.keys.normal_mode["tn"] = ":NvimTreeToggle<CR>"
 lvim.keys.normal_mode["<space>td"] = ":lua require('telescope.builtin').find_files({ cwd = vim.fn.expand('%:p:h') })<CR>"
 lvim.keys.normal_mode["<leader>tt"] = ":lua require('telescope.builtin').find_files()<CR>"
 lvim.keys.normal_mode["<space>t`"] = ":lua require('telescope.builtin').buffers({initial_mode = 'insert'})<CR>"
+-- NOTE: for some odd reason, it doens't jump to document symbol, it jumps to other buffer, is the wrong buffer id being passed intermittently?
 lvim.keys.normal_mode["<space>o"] = ":lua require('modules/fuzzy').document_symbols()<CR>"
 lvim.keys.normal_mode["<space>O"] = ":lua require('modules/fuzzy').workspace_symbols()<CR>"
 lvim.keys.normal_mode["<space>a"] = ":lua require('modules/fuzzy').diagnostics()<CR>"
 lvim.keys.normal_mode["<space>A"] = ":Trouble document_diagnostics<CR>"
 lvim.keys.normal_mode["<leader>tc"] = ":lua require('modules/searchconfigs').search_configs()<CR>"
+
+lvim.keys.normal_mode["<leader>rn"] = ":lua vim.lsp.buf.rename"
 
 -- Center cursorline
 lvim.keys.normal_mode["j"] = "jzz"
@@ -131,7 +161,6 @@ lvim.builtin.telescope.defaults.env = { COLORTERM = "truecolor" }
 lvim.builtin.lualine.sections = require('modules/lualine').configure()
 
 -- if you don't want all the parsers change this to a table of the ones you want
--- TODO: figure out other highlights I need
 lvim.builtin.treesitter.ensure_installed = {
   "bash",
   "c",
@@ -174,8 +203,6 @@ lvim.builtin.gitsigns.opts.signs.topdelete.text = "‾"
 -- generic LSP settings
 
 -- -- make sure server will always be installed even if the server is in skipped_servers list
--- TODO: figure out other language servers to install
--- TODO: try out emmetls
 lvim.lsp.installer.setup.ensure_installed = {
   "sumneko_lua",
   "jsonls",
@@ -307,7 +334,7 @@ lvim.plugins = {
 }
 
 -- Load stuff for my plugins
-require "lsp_signature".setup({ hint_prefix = "🙈 ", max_height = 10, max_width = 60 })
+require "lsp_signature".setup(require('modules.signature').cfg)
 vim.cmd('source ~/.config/lvim/tmux.vim')
 vim.cmd('source ~/.config/lvim/vim-go.vim')
 if lvim.colorscheme ~= "catppuccin" then
