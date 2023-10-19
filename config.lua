@@ -7,6 +7,7 @@ lvim.lint_on_save = true
 -- lvim.colorscheme = "lunar"
 lvim.colorscheme = "catppuccin"
 vim.o.relativenumber = true
+lvim.builtin.indentlines.active = false
 lvim.transparent_window = true
 lvim.reload_config_on_save = false
 vim.o.autochdir = true
@@ -63,8 +64,8 @@ lvim.keys.normal_mode["<space>td"] = ":lua require('telescope.builtin').find_fil
 lvim.keys.normal_mode["<leader>tt"] = ":lua require('telescope.builtin').find_files()<CR>"
 lvim.keys.normal_mode["<space>t`"] = ":lua require('telescope.builtin').buffers({initial_mode = 'insert'})<CR>"
 -- NOTE: for some odd reason, it doens't jump to document symbol, it jumps to other buffer, is the wrong buffer id being passed intermittently?
-lvim.keys.normal_mode["<space>o"] = ":lua require('modules/fuzzy').document_symbols()<CR>"
-lvim.keys.normal_mode["<space>O"] = ":lua require('modules/fuzzy').workspace_symbols()<CR>"
+lvim.keys.normal_mode["<space>o"] = ":lua require('modules/fuzzy').document_symbols()<cr>"
+lvim.keys.normal_mode["<space>O"] = ":lua require('modules/fuzzy').workspace_symbols()<cr>"
 lvim.keys.normal_mode["<space>a"] = ":lua require('modules/fuzzy').diagnostics()<CR>"
 lvim.keys.normal_mode["<space>A"] = ":Trouble document_diagnostics<CR>"
 lvim.keys.normal_mode["<leader>tc"] = ":lua require('modules/searchconfigs').search_configs()<CR>"
@@ -189,7 +190,6 @@ lvim.builtin.treesitter.ensure_installed = {
   "go",
   "dockerfile",
   "make",
-  "sql",
   "html"
 }
 
@@ -216,7 +216,7 @@ lvim.builtin.gitsigns.opts.signs.topdelete.text = "‾"
 
 -- -- make sure server will always be installed even if the server is in skipped_servers list
 lvim.lsp.installer.setup.ensure_installed = {
-  "sumneko_lua",
+  -- "sumneko_lua",
   "jsonls",
   "gopls",
   "dockerls",
@@ -301,15 +301,15 @@ linters.setup {
   -- },
 }
 
--- local code_actions = require "lvim.lsp.null-ls.code_actions"
+local code_actions = require "lvim.lsp.null-ls.code_actions"
 -- FIXME: this isn't working, it's becuase gomodify tags is available for later versions of null-ls
 -- // it's a pain in the butt to update plugins in lunar vim
 -- // a workaround for codeactions for go is to install vim-go
 --
--- code_actions.setup {
---   { name = "gomodifytags" },
---   { name = "impl" },
--- }
+code_actions.setup {
+  { name = "gomodifytags" },
+  { name = "impl" },
+}
 
 -- local linters = require "lvim.lsp.null-ls.linters"
 
@@ -330,7 +330,7 @@ lvim.plugins = {
   },
   {
     'fatih/vim-go',
-    tag = "v1.28",
+    version = "v1.28",
     filetypes = { 'go', 'gomod' }
   },
   {
@@ -402,3 +402,11 @@ require('modules/icons')
 vim.tbl_map(function(server)
   return server ~= "emmet_ls"
 end, lvim.lsp.automatic_configuration.skipped_servers)
+
+-- This link shows that this config is needed so lsps are attached to buffers correctly
+-- https://www.reddit.com/r/lunarvim/comments/13a72cl/lsp_problem_attachinginstalling_servers/?rdt=51342
+-- require('mason-lspconfig').setup_handlers({
+--   function(server)
+--     require('lvim.lsp.manager').setup(server)
+--   end
+-- })

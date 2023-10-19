@@ -54,6 +54,7 @@ local treesitter = {
 local diagnostics = {
   'diagnostics',
   sources = { 'nvim_diagnostic' },
+  symbols = {info = ' ', hint = '󰌵 ', warn = ' '},
   cond = hide_width
 }
 
