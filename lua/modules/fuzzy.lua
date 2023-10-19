@@ -6,23 +6,24 @@ end
 
 local opts = {
   results_title = false,
-  layout_strategy = "bottom_pane",
+  -- bottom_pane layout causing weird bug; jumps to random location in other buffer
+  -- layout_strategy = "bottom_pane",
   sorting_strategy = "ascending",
   symbol_width = 50,
   layout_config = {
-    height = 0.50,
+    height = 0.65,
     -- width = 0.75,
     prompt_position = "bottom",
     -- preview_cutoff = 120,
     horizontal = { mirror = false },
     vertical = { mirror = false },
   },
-  border = true,
-  borderchars = {
-    prompt = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-    results = { "─", "│", "─", "│", "╭", "╮", "┤", "├" },
-    preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-  }
+  -- border = true,
+  -- borderchars = {
+  --   prompt = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+  --   results = { "─", "│", "─", "│", "╭", "╮", "┤", "├" },
+  --   preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+  -- }
 }
 
 M.workspace_symbols = function()

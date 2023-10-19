@@ -69,7 +69,9 @@ lvim.keys.normal_mode["<space>a"] = ":lua require('modules/fuzzy').diagnostics()
 lvim.keys.normal_mode["<space>A"] = ":Trouble document_diagnostics<CR>"
 lvim.keys.normal_mode["<leader>tc"] = ":lua require('modules/searchconfigs').search_configs()<CR>"
 
-lvim.keys.normal_mode["<leader>rn"] = ":lua vim.lsp.buf.rename"
+lvim.keys.normal_mode["<space>e"] = ":lua require('lir.float').toggle()<CR>"
+
+lvim.keys.normal_mode["<leader>rn"] = ":lua vim.lsp.buf.rename()<CR>"
 
 -- Center cursorline
 lvim.keys.normal_mode["j"] = "jzz"
@@ -88,6 +90,8 @@ lvim.keys.visual_block_mode["<S-k>"] = ":m '<-2<CR>gv-gv"
 -- Change Telescope navigation to use j and k for navigation and n and p for history in both input and normal mode.
 -- we use protected-mode (pcall) just in case the plugin wasn't loaded yet.
 local _, actions = pcall(require, "telescope.actions")
+-- TODO: utilize toggle preview after configuring pickers to have preview enabled
+-- local action_layout = require("telescope.actions.layout")
 lvim.builtin.telescope.defaults.mappings = {
   -- for input mode
   i = {
@@ -100,6 +104,7 @@ lvim.builtin.telescope.defaults.mappings = {
   n = {
     ["<C-j>"] = actions.move_selection_next,
     ["<C-k>"] = actions.move_selection_previous,
+    -- ["<C-y>"] = action_layout.toggle_preview, -- the pickers were configured to disable preview
   },
 }
 
@@ -128,6 +133,11 @@ lvim.builtin.comment.active = true
 lvim.builtin.bufferline.options.always_show_bufferline = true
 -- This is mapped to navic
 lvim.builtin.breadcrumbs.active = false
+
+-- disable notifications
+lvim.builtin.nvimtree.setup.notify = {
+  threshold = vim.log.levels.DEBUG,
+}
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = true
 lvim.builtin.nvimtree.setup.git.ignore = true
@@ -148,6 +158,8 @@ lvim.builtin.nvimtree.setup.renderer.indent_markers.enable = true
 
 lvim.builtin.telescope.defaults.file_ignore_patterns = { ".git/", "node_modules/", "vendor/" }
 lvim.builtin.telescope.defaults.env = { COLORTERM = "truecolor" }
+-- hide previewer when picker starts
+lvim.builtin.telescope.defaults.preview = { hide_on_startup = true }
 
 -- local components = require('lvim.core.lualine.components')
 -- components.diagnostics.symbols.error = ''
@@ -254,10 +266,11 @@ lvim.lsp.installer.setup.ensure_installed = {
 -- TODO: configure typescript, javascript, html, emmet, css
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
-  { command = "gofmt",     filetypes = { "go" } },
-  { command = "goimports", filetypes = { "go" } },
-  { command = "black",     filetypes = { "python" } },
-  { command = "isort",     filetypes = { "python" } },
+  { command = "gofmt",        filetypes = { "go" } },
+  { command = "goimports",    filetypes = { "go" } },
+  { command = "black",        filetypes = { "python" } },
+  { command = "isort",        filetypes = { "python" } },
+  { name = 'trim_whitespace', filetypes = {} },
   {
     -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
     command = "prettier",
@@ -327,11 +340,19 @@ lvim.plugins = {
   },
   {
     'catppuccin/nvim',
-  }
+  },
+  {
+    'stevearc/dressing.nvim'
+  },
+  -- {
+  --   'rcarriga/nvim-notify'
+  -- }
   -- {
   --   'tpope/vim-sensible'
   -- }
 }
+
+-- vim.notify = require("notify")
 
 -- Load stuff for my plugins
 require "lsp_signature".setup(require('modules.signature').cfg)
