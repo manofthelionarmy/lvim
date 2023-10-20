@@ -344,6 +344,9 @@ lvim.plugins = {
   {
     'stevearc/dressing.nvim'
   },
+  {
+    'airblade/vim-rooter'
+  }
   -- {
   --   'rcarriga/nvim-notify'
   -- }

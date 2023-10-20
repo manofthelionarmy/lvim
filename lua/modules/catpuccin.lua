@@ -38,7 +38,8 @@ require("catppuccin").setup {
       TelescopePromptBorder = { bg = colors.base },
       -- Normal = { bg = "NONE", fg = "NONE" }
     }
-  end
+  end,
+  no_underline = true, -- Force no underline
 }
 -- require("bufferline").setup {
 --   highlights = require("catppuccin.groups.integrations.bufferline").get()
