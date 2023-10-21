@@ -16,8 +16,27 @@ require("catppuccin").setup {
       custom_bg = "NONE"
     },
     treesitter_context = true,
-    lsp_trouble = true
+    lsp_trouble = true,
     -- ts_rainbow2 = true,
+    rainbow_delimiters = true,
+    native_lsp = {
+      enabled = true,
+      virtual_text = {
+          errors = { "italic" },
+          hints = { "italic" },
+          warnings = { "italic" },
+          information = { "italic" },
+      },
+      underlines = {
+          errors = { "underline" },
+          hints = { "underline" },
+          warnings = { "underline" },
+          information = { "underline" },
+      },
+      inlay_hints = {
+          background = true,
+      },
+    },
     -- coc_nvim = true,
     -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
   },

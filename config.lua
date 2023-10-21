@@ -60,6 +60,7 @@ lvim.keys.normal_mode["tn"] = ":NvimTreeToggle<CR>"
 -- The reasone this doesn't remap because which key maps it to undo stage hunk
 -- reset_hunk is mapped to <leader>gr in which key
 -- lvim.keys.normal_mode["<leader>gu"] = ":lua require('gitsigns').reset_hunk()<cr>"
+lvim.keys.normal_mode["<leader>gf"] = ":lua require('gitsigns').diffthis()<cr>"
 lvim.keys.normal_mode["<space>td"] = ":lua require('telescope.builtin').find_files({ cwd = vim.fn.expand('%:p:h') })<CR>"
 lvim.keys.normal_mode["<leader>tt"] = ":lua require('telescope.builtin').find_files()<CR>"
 lvim.keys.normal_mode["<space>t`"] = ":lua require('telescope.builtin').buffers({initial_mode = 'insert'})<CR>"
@@ -132,6 +133,7 @@ lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.terminal.active = true
 lvim.builtin.comment.active = true
 lvim.builtin.bufferline.options.always_show_bufferline = true
+-- lvim.builtin.treesitter.rainbow.enable = true
 -- This is mapped to navic
 lvim.builtin.breadcrumbs.active = false
 
@@ -346,6 +348,16 @@ lvim.plugins = {
   },
   {
     'airblade/vim-rooter'
+  },
+  {
+    'tpope/vim-fugitive'
+  },
+  -- {
+  --   'HiPhish/nvim-ts-rainbow2',
+  --   version = "v2.3.0"
+  -- }
+  {
+    'hiphish/rainbow-delimiters.nvim'
   }
   -- {
   --   'rcarriga/nvim-notify'
