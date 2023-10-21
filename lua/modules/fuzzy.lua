@@ -27,22 +27,25 @@ local opts = {
   show_line = true
 }
 
-M.workspace_symbols = function()
+local function append_bufnr(opts)
   -- always get the latest bufnr
   opts.bufnr = vim.api.nvim_win_get_buf(0)
-  builtin.lsp_workspace_symbols(opts)
+  return opts
+end
+
+M.workspace_symbols = function()
+  -- always get the latest bufnr
+  builtin.lsp_workspace_symbols(append_bufnr(opts))
 end
 
 
 M.document_symbols = function()
   -- always get the latest bufnr
-  opts.bufnr = vim.api.nvim_win_get_buf(0)
-  builtin.lsp_document_symbols(opts)
+  builtin.lsp_document_symbols(append_bufnr(opts))
 end
 
 M.diagnostics = function()
   -- always get the latest bufnr
-  opts.bufnr = vim.api.nvim_win_get_buf(0)
-  builtin.diagnostics(opts)
+  builtin.diagnostics(append_bufnr(opts))
 end
 return M
