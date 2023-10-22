@@ -17,20 +17,21 @@ local cmp = require('cmp')
 local compare = require('cmp.config.compare')
 local comparators = {
   -- compare.score_offset, -- not good at all
+  compare.order, -- Put order first, preselect selects first in alphanumeric order
+  compare.exact,
   compare.score, -- based on :  score = score + ((#sources - (source_index - 1)) * sorting.priority_weight)
   compare.locality,
   -- NOTE: disable recently_used
   -- compare.recently_used, -- disable this
   compare.offset,
-  compare.order,
   -- compare.scopes, -- what?
   -- compare.sort_text,
-  -- compare.exact,
   -- compare.kind,
   -- compare.length, -- useless
 }
--- Enable preselection
+-- Enable preselection; selects alphabetically
 lvim.builtin.cmp.preselect = cmp.PreselectMode.Item
+-- lvim.builtin.cmp.completion.completeopt = "menu,menuone,noinsert"
 -- lvim.builtin.cmp.confirm_opts.select = true
 -- Was trying to autocomplete first preselected item
 -- lvim.builtin.cmp.confirm = { select = true, behavior = cmp.ConfirmBehavior.Replace }
