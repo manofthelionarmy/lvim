@@ -13,7 +13,7 @@ local function tjs_compare(entry1, entry2)
   end
 end
 
-local cmp = require('cmp')
+-- local cmp = require('cmp')
 -- found this on reddit, this really helped me :)
 local compare = require('cmp.config.compare')
 local comparators = {
