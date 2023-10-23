@@ -11,14 +11,17 @@ lvim.builtin.indentlines.active = false
 lvim.transparent_window = true
 lvim.reload_config_on_save = false
 vim.o.autochdir = true
+vim.o.completeopt = "menu,menuone"
 
 
 
 local cmp = require('cmp')
 -- found this on reddit, this really helped me :)
 -- Enable preselection; selects alphabetically
-lvim.builtin.cmp.preselect = cmp.PreselectMode.Item
--- lvim.builtin.cmp.completion.completeopt = "menu,menuone,noinsert"
+-- Need to set this so that we can always preselect 1st element in completion list
+lvim.builtin.cmp.preselect = cmp.PreselectMode.None
+-- Need to set this because it will preselect 1st element in completion list if last option is not noselect
+lvim.builtin.cmp.completion.completeopt = "menu,menuone,noinsert"
 -- lvim.builtin.cmp.confirm_opts.select = true
 -- Was trying to autocomplete first preselected item
 -- lvim.builtin.cmp.confirm = { select = true, behavior = cmp.ConfirmBehavior.Replace }
@@ -26,6 +29,12 @@ local comparators = require('modules/cmp-compare').comparators
 -- NOTE: Very important to set this, this ensures we don't sort completion items
 -- and that preselect will always highlight first completion item
 lvim.builtin.cmp.sorting = { priority_weight = 1, comparators = comparators }
+-- we need to set this so we can select 1st element in completion list
+lvim.builtin.cmp.view = {
+  entries = {
+    selection_order = 'top_down'
+  }
+}
 -- lvim.builtin.cmp.matching = { disallow_fuzzy_matching = true }
 
 lvim.builtin.alpha.dashboard.section.header.val = require('modules/alpha').alpha_header

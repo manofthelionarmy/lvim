@@ -19,7 +19,7 @@ local compare = require('cmp.config.compare')
 local comparators = {
   -- compare.score_offset, -- not good at all
   -- compare.order, -- Put order first, preselect selects first in alphanumeric order
-  compare.offset,
+  -- compare.offset,
   compare.exact,
   compare.score, -- based on :  score = score + ((#sources - (source_index - 1)) * sorting.priority_weight)
   tjs_compare,
@@ -27,8 +27,8 @@ local comparators = {
   -- NOTE: disable recently_used
   -- compare.recently_used, -- disable this
   -- compare.scopes, -- what?
-  -- compare.sort_text,
-  -- compare.kind,
+  compare.sort_text,
+  compare.kind,
   -- compare.sort_text,
   -- compare.length, -- useless
   compare.order,
