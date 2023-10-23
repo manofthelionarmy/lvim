@@ -21,7 +21,7 @@ local cmp = require('cmp')
 -- Need to set this so that we can always preselect 1st element in completion list
 lvim.builtin.cmp.preselect = cmp.PreselectMode.None
 -- Need to set this because it will preselect 1st element in completion list if last option is not noselect
-lvim.builtin.cmp.completion.completeopt = "menu,menuone,noinsert"
+lvim.builtin.cmp.completion.completeopt = "menu,menuone"
 -- lvim.builtin.cmp.confirm_opts.select = true
 -- Was trying to autocomplete first preselected item
 -- lvim.builtin.cmp.confirm = { select = true, behavior = cmp.ConfirmBehavior.Replace }
