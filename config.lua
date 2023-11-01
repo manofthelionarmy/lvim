@@ -355,6 +355,10 @@ lvim.plugins = {
   -- }
   {
     'hiphish/rainbow-delimiters.nvim'
+  },
+  {
+    'manofthelionarmy/nvim-dap-go',
+    branch = 'experiment/go-headless-adapter'
   }
   -- {
   --   'rcarriga/nvim-notify'
@@ -363,6 +367,8 @@ lvim.plugins = {
   --   'tpope/vim-sensible'
   -- }
 }
+
+require('modules.dap-go')
 
 -- vim.notify = require("notify")
 

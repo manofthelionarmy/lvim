@@ -5,6 +5,20 @@ if not status_ok then
 end
 
 local opts = {
+  -- I found that we can filter out the kind of document symbols
+  -- these are the highlevel things I want to grep for
+  symbols = {
+    "function",
+    "class",
+    "method",
+    "interface",
+    "variable",
+    "constructor",
+    "struct",
+    "property", -- does this even work?
+    "constant",
+    -- "field", -- field and property are 2 different things; field is on a struct, property is on a class
+  },
   results_title = false,
   -- bottom_pane layout causing weird bug; jumps to random location in other buffer
   layout_strategy = "bottom_pane",
