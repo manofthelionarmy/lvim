@@ -17,6 +17,7 @@ local opts = {
     "struct",
     "property", -- does this even work?
     "constant",
+    "object",
     -- "field", -- field and property are 2 different things; field is on a struct, property is on a class
   },
   results_title = false,
