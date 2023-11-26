@@ -225,7 +225,7 @@ lvim.lsp.installer.setup.ensure_installed = {
   "html",
   "cssls",
   "sqls",
-  "emmet_ls"
+  "emmet_ls",
 }
 -- -- change UI setting of `LspInstallInfo`
 -- -- see <https://github.com/williamboman/nvim-lsp-installer#default-configuration>
@@ -269,6 +269,7 @@ formatters.setup {
   { command = "goimports",    filetypes = { "go" } },
   { command = "black",        filetypes = { "python" } },
   { command = "isort",        filetypes = { "python" } },
+  { name = "dart_format",  filetypes = {"dart"} },
   { name = 'trim_whitespace', filetypes = {} },
   {
     -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
@@ -359,6 +360,10 @@ lvim.plugins = {
   {
     'manofthelionarmy/nvim-dap-go',
     branch = 'experiment/go-headless-adapter'
+  },
+  -- Install once I correctly install flutter and dart
+  {
+    'akinsho/flutter-tools.nvim'
   }
   -- {
   --   'rcarriga/nvim-notify'
@@ -421,6 +426,7 @@ vim.tbl_map(function(server)
   return server ~= "emmet_ls"
 end, lvim.lsp.automatic_configuration.skipped_servers)
 
+-- TODO: check if lsps are correctly loaded when switching buffers
 -- This link shows that this config is needed so lsps are attached to buffers correctly
 -- https://www.reddit.com/r/lunarvim/comments/13a72cl/lsp_problem_attachinginstalling_servers/?rdt=51342
 -- require('mason-lspconfig').setup_handlers({
@@ -428,3 +434,6 @@ end, lvim.lsp.automatic_configuration.skipped_servers)
 --     require('lvim.lsp.manager').setup(server)
 --   end
 -- })
+-- require('lspconfig').dartls.setup{}
+require("flutter-tools").setup {}
+require("telescope").load_extension("flutter")

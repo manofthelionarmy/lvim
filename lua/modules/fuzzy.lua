@@ -26,7 +26,7 @@ local opts = {
   sorting_strategy = "ascending",
   symbol_width = 30,
   layout_config = {
-    height = 0.45,
+    height = 0.35,
     -- width = 0.75,
     prompt_position = "bottom",
     -- preview_cutoff = 120,
@@ -48,14 +48,24 @@ local function append_bufnr(opts)
   return opts
 end
 
+local function add_field_symbols(opts)
+  if vim.o.filetype == "lua" then
+    table.insert(opts.symbols, "field")
+    table.insert(opts.symbols, "array")
+  end
+  return opts
+end
+
 M.workspace_symbols = function()
   -- always get the latest bufnr
+  local opts = add_field_symbols(opts)
   builtin.lsp_workspace_symbols(append_bufnr(opts))
 end
 
 
 M.document_symbols = function()
   -- always get the latest bufnr
+  local opts = add_field_symbols(opts)
   builtin.lsp_document_symbols(append_bufnr(opts))
 end
 
