@@ -2,7 +2,7 @@
 lvim.log.level = "none"
 lvim.format_on_save.enabled = true
 -- May have to update this whenever I wan to lint on save
-lvim.format_on_save.pattern = { "*.lua", "*.javascript", "*.go", "*.html", "*.gohtml", "*.tmpl" }
+lvim.format_on_save.pattern = { "*.lua", "*.javascript", "*.go", "*.html", "*.gohtml", "*.tmpl", "*.dart" }
 lvim.lint_on_save = true
 -- lvim.colorscheme = "lunar"
 lvim.colorscheme = "catppuccin"
@@ -10,8 +10,12 @@ vim.o.relativenumber = true
 lvim.builtin.indentlines.active = false
 lvim.transparent_window = true
 lvim.reload_config_on_save = false
+
 vim.o.autochdir = true
 vim.o.completeopt = "menu,menuone"
+
+-- for some reason, the autoindent is not working for dart
+lvim.builtin.treesitter.indent.disable = { "yaml", "python", "dart" }
 
 
 
@@ -269,7 +273,7 @@ formatters.setup {
   { command = "goimports",    filetypes = { "go" } },
   { command = "black",        filetypes = { "python" } },
   { command = "isort",        filetypes = { "python" } },
-  { name = "dart_format",  filetypes = {"dart"} },
+  { name = "dart_format",     filetypes = { "dart" },},
   { name = 'trim_whitespace', filetypes = {} },
   {
     -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
@@ -364,7 +368,10 @@ lvim.plugins = {
   -- Install once I correctly install flutter and dart
   {
     'akinsho/flutter-tools.nvim'
-  }
+  },
+  -- {
+  --   'mhartington/formatter.nvim'
+  -- }
   -- {
   --   'rcarriga/nvim-notify'
   -- }
@@ -435,5 +442,15 @@ end, lvim.lsp.automatic_configuration.skipped_servers)
 --   end
 -- })
 -- require('lspconfig').dartls.setup{}
-require("flutter-tools").setup {}
+require("flutter-tools").setup {
+ lsp = {
+    on_attach = require('lvim.lsp').common_on_attach,
+    capabilities = require('lvim.lsp').common_capabilities
+  }
+}
 require("telescope").load_extension("flutter")
+
+
+-- doing this as a work around, indenting for dart is really weird
+-- setting cindent is helpful, since dart is a c-style language
+vim.cmd[[autocmd! FileType dart setlocal cindent]]
