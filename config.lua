@@ -448,7 +448,7 @@ end, lvim.lsp.automatic_configuration.skipped_servers)
 require("flutter-tools").setup {
  lsp = {
     on_attach = require('lvim.lsp').common_on_attach,
-    capabilities = require('lvim.lsp').default_capabilities,
+    capabilities = require('lvim.lsp').common_capabilities,
   }
 }
 require("telescope").load_extension("flutter")
