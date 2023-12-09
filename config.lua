@@ -196,7 +196,7 @@ lvim.builtin.treesitter.ensure_installed = {
   "html"
 }
 
-lvim.builtin.treesitter.ignore_install = { "haskell" }
+lvim.builtin.treesitter.ignore_install = { "haskell", "dart" }
 lvim.builtin.treesitter.highlight.enable = true
 lvim.builtin.treesitter.rainbow.enable = true
 
@@ -273,7 +273,7 @@ formatters.setup {
   { command = "goimports",    filetypes = { "go" } },
   { command = "black",        filetypes = { "python" } },
   { command = "isort",        filetypes = { "python" } },
-  { name = "dart_format",     filetypes = { "dart" },},
+  { name = "dart_format",     filetypes = { "dart" }, extra_args = {"--output", "show"}},
   { name = 'trim_whitespace', filetypes = {} },
   {
     -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
@@ -378,6 +378,9 @@ lvim.plugins = {
   -- {
   --   'tpope/vim-sensible'
   -- }
+  {
+    "dart-lang/dart-vim-plugin"
+  }
 }
 
 require('modules.dap-go')
@@ -445,7 +448,7 @@ end, lvim.lsp.automatic_configuration.skipped_servers)
 require("flutter-tools").setup {
  lsp = {
     on_attach = require('lvim.lsp').common_on_attach,
-    capabilities = require('lvim.lsp').common_capabilities
+    capabilities = require('lvim.lsp').default_capabilities,
   }
 }
 require("telescope").load_extension("flutter")
