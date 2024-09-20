@@ -4,11 +4,12 @@ lvim.format_on_save.enabled = true
 -- May have to update this whenever I wan to lint on save
 lvim.format_on_save.pattern = { "*.lua", "*.javascript", "*.go", "*.html", "*.gohtml", "*.tmpl", "*.dart" }
 lvim.lint_on_save = true
+lvim.builtin.bufferline.options.themable = false
 -- lvim.colorscheme = "lunar"
-lvim.colorscheme = "catppuccin"
+lvim.colorscheme = "dracula-soft"
 vim.o.relativenumber = true
 lvim.builtin.indentlines.active = false
-lvim.transparent_window = true
+-- lvim.transparent_window = true
 lvim.reload_config_on_save = false
 
 vim.o.autochdir = true
@@ -18,21 +19,45 @@ vim.o.completeopt = "menu,menuone"
 lvim.builtin.treesitter.indent.disable = { "yaml", "python", "dart" }
 
 
+-- local cmp = require('cmp')
+lvim.builtin.cmp.window.completion = {
+  -- winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
+  col_offset = -3,
+  side_padding = 0,
+}
+lvim.builtin.cmp.window.documentation = {
+  -- winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
+  col_offset = -3,
+  side_padding = 0,
+}
+lvim.builtin.cmp.formatting = {
+  fields = { "kind", "abbr", "menu" },
+  format = function(entry, vim_item)
+    -- this is inspired from lsp kinds cmp_format function in lsp_kind
+    local icons = require('lvim.icons').kind
+    -- local kind = vim_item
+    vim_item.kind = icons[vim_item.kind] .. " " .. vim_item.kind
+    local strings = vim.split(vim_item.kind, "%s", { trimempty = true })
+    vim_item.kind = " " .. (strings[1] or "") .. " "
+    vim_item.menu = "    (" .. (strings[2] or "") .. ")"
 
-local cmp = require('cmp')
+    return vim_item
+  end,
+}
 -- found this on reddit, this really helped me :)
 -- Enable preselection; selects alphabetically
 -- Need to set this so that we can always preselect 1st element in completion list
-lvim.builtin.cmp.preselect = cmp.PreselectMode.None
+-- lvim.builtin.cmp.preselect = cmp.PreselectMode.None
+lvim.builtin.cmp.preselect = false
 -- Need to set this because it will preselect 1st element in completion list if last option is not noselect
-lvim.builtin.cmp.completion.completeopt = "menu,menuone"
+-- lvim.builtin.cmp.completion.completeopt = "menu,menuone"
 -- lvim.builtin.cmp.confirm_opts.select = true
 -- Was trying to autocomplete first preselected item
 -- lvim.builtin.cmp.confirm = { select = true, behavior = cmp.ConfirmBehavior.Replace }
-local comparators = require('modules/cmp-compare').comparators
--- NOTE: Very important to set this, this ensures we don't sort completion items
--- and that preselect will always highlight first completion item
-lvim.builtin.cmp.sorting = { priority_weight = 1, comparators = comparators }
+-- local comparators = require('modules/cmp-compare').comparators
+-- -- NOTE: Very important to set this, this ensures we don't sort completion items
+-- -- and that preselect will always highlight first completion item
+-- lvim.builtin.cmp.sorting = { priority_weight = 1, comparators = comparators }
 -- we need to set this so we can select 1st element in completion list
 lvim.builtin.cmp.view = {
   entries = {
@@ -152,7 +177,7 @@ lvim.builtin.nvimtree.setup.filters.exclude = { ".gitlab_ci.yaml", ".gitignore",
 lvim.builtin.nvimtree.setup.diagnostics = {
   enable = true, -- neat, it works with nvim-lsp and coc :)
   icons = {
-    hint = "",
+    hint = "󰌵",
     info = "",
     warning = "",
     error = "",
@@ -164,6 +189,7 @@ lvim.builtin.telescope.defaults.file_ignore_patterns = { ".git/", "node_modules/
 lvim.builtin.telescope.defaults.env = { COLORTERM = "truecolor" }
 -- hide previewer when picker starts
 lvim.builtin.telescope.defaults.preview = { hide_on_startup = true }
+lvim.builtin.telescope.defaults.selection_caret = "> "
 
 -- local components = require('lvim.core.lualine.components')
 -- components.diagnostics.symbols.error = ''
@@ -273,7 +299,7 @@ formatters.setup {
   { command = "goimports",    filetypes = { "go" } },
   { command = "black",        filetypes = { "python" } },
   { command = "isort",        filetypes = { "python" } },
-  { name = "dart_format",     filetypes = { "dart" }, extra_args = {"--output", "show"}},
+  { name = "dart_format",     filetypes = { "dart" },  extra_args = { "--output", "show" } },
   { name = 'trim_whitespace', filetypes = {} },
   {
     -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
@@ -284,6 +310,9 @@ formatters.setup {
     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
     filetypes = { "typescript", "typescriptreact" },
   },
+  {
+    filetypes = { "cs" }, command = "csharpier"
+  }
 }
 
 -- -- set additional linters
@@ -298,6 +327,9 @@ linters.setup {
     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
     extra_args = { "--severity", "warning" },
   },
+  -- {
+  --   filetypes = { "cs" }, command = "mcs"
+  -- }
   -- {
   --   command = "codespell",
   --   ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
@@ -380,7 +412,26 @@ lvim.plugins = {
   -- }
   {
     "dart-lang/dart-vim-plugin"
+  },
+  {
+    "ggandor/leap.nvim",
+    config = function()
+      require('modules.leap')
+    end
+  },
+  {
+    "Mofiqul/dracula.nvim",
+    branch = "main"
   }
+  -- {
+  --   "onsails/lspkind.nvim",
+  --   config = function()
+  --     local icons = require('lvim.icons')
+  --     require('lspkind').init({
+  --       symbol_map = icons.kind,
+  --     })
+  --   end
+  -- }
 }
 
 require('modules.dap-go')
@@ -391,7 +442,10 @@ require('modules.dap-go')
 require "lsp_signature".setup(require('modules.signature').cfg)
 vim.cmd('source ~/.config/lvim/tmux.vim')
 vim.cmd('source ~/.config/lvim/vim-go.vim')
-if lvim.colorscheme ~= "catppuccin" then
+if string.find(lvim.colorscheme, "dracula") then
+  require("modules/dracula")
+  lvim.builtin.bufferline.highlights = require("modules.dracula-bufferline").highlights
+elseif lvim.colorscheme ~= "catppuccin" then
   vim.cmd('source ~/.config/lvim/tokyonight.vim')
 else
   require("modules/catpuccin")
@@ -445,10 +499,19 @@ end, lvim.lsp.automatic_configuration.skipped_servers)
 --   end
 -- })
 -- require('lspconfig').dartls.setup{}
+local home_dir = vim.loop.os_homedir()
 require("flutter-tools").setup {
- lsp = {
+  lsp = {
     on_attach = require('lvim.lsp').common_on_attach,
     capabilities = require('lvim.lsp').common_capabilities,
+    settings = {
+      showTodos = true,
+      completeFunctionCalls = true,
+      analysisExcludedFolders = { home_dir .. "/.pub-cache", home_dir .. "/fvm/versions/stable/packages/flutter" },
+      renameFilesWithClasses = "prompt", -- "always"
+      enableSnippets = true,
+      updateImportsOnRename = true,      -- Whether to update imports and other directives when files are renamed. Required for `FlutterRename` command.
+    }
   }
 }
 require("telescope").load_extension("flutter")
@@ -456,4 +519,4 @@ require("telescope").load_extension("flutter")
 
 -- doing this as a work around, indenting for dart is really weird
 -- setting cindent is helpful, since dart is a c-style language
-vim.cmd[[autocmd! FileType dart setlocal cindent]]
+vim.cmd [[autocmd! FileType dart setlocal cindent]]

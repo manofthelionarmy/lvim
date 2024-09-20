@@ -9,6 +9,9 @@ M.cfg = {
   toggle_key = "<C-x>",
   toggle_key_flip_floatwin_setting = false,
   always_trigger = false,
+  handler_opts = {
+    border = "shadow"
+  },
   -- floating_window_off_x = 1, -- adjust float windows x position.
   -- floating_window_above_cur_line = false,
   -- floating_window_off_y = 2,

@@ -1,5 +1,6 @@
 require("catppuccin").setup {
   flavour = "frappe", -- latte, frappe, macchiato, mocha
+  transparent_background = false,
   integrations = {
     nvimtree = true,
     telescope = true,
@@ -19,22 +20,23 @@ require("catppuccin").setup {
     lsp_trouble = true,
     -- ts_rainbow2 = true,
     rainbow_delimiters = true,
+    leap = true,
     native_lsp = {
       enabled = true,
       virtual_text = {
-          errors = { "italic" },
-          hints = { "italic" },
-          warnings = { "italic" },
-          information = { "italic" },
+        errors = { "italic" },
+        hints = { "italic" },
+        warnings = { "italic" },
+        information = { "italic" },
       },
       underlines = {
-          errors = { "underline" },
-          hints = { "underline" },
-          warnings = { "underline" },
-          information = { "underline" },
+        errors = { "underline" },
+        hints = { "underline" },
+        warnings = { "underline" },
+        information = { "underline" },
       },
       inlay_hints = {
-          background = true,
+        background = true,
       },
     },
     -- coc_nvim = true,
@@ -56,6 +58,26 @@ require("catppuccin").setup {
       TelescopeResultsBorder = { bg = colors.base },
       TelescopePromptBorder = { bg = colors.base },
       -- Normal = { bg = "NONE", fg = "NONE" }
+      PmenuSel = { bg = colors.surface1, fg = colors.surface1},
+      Pmenu = { bg = colors.surface0 },
+      Search = { fg = colors.maroon },
+      PmenuExtra = { fg = colors.mauve},
+      CmpItemAbbrMatch = { fg = colors.maroon},
+
+
+      TelescopeMatching = { fg = colors.flamingo },
+      TelescopeSelection = { fg = colors.text, bg = colors.surface0, bold = true },
+
+      TelescopePromptPrefix = { bg = colors.surface0, fg = colors.red },
+      TelescopePromptNormal = { bg = colors.surface0 },
+      TelescopeResultsNormal = { bg = colors.mantle },
+      TelescopePreviewNormal = { bg = colors.mantle },
+      TelescopePromptBorder = { bg = colors.surface0, fg = colors.surface0 },
+      TelescopeResultsBorder = { bg = colors.mantle, fg = colors.mantle },
+      TelescopePreviewBorder = { bg = colors.mantle, fg = colors.mantle },
+      TelescopePromptTitle = { fg = colors.mantle },
+      TelescopeResultsTitle = { fg = colors.mantle },
+      TelescopePreviewTitle = { bg = colors.green, fg = colors.mantle },
     }
   end,
   no_underline = true, -- Force no underline

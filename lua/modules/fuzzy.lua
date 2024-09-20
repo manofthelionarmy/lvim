@@ -20,9 +20,10 @@ local opts = {
     "object",
     -- "field", -- field and property are 2 different things; field is on a struct, property is on a class
   },
-  results_title = false,
+  -- results_title = true,
+  -- prompt_title = false,
   -- bottom_pane layout causing weird bug; jumps to random location in other buffer
-  layout_strategy = "bottom_pane",
+  -- layout_strategy = "bottom_pane",
   sorting_strategy = "ascending",
   symbol_width = 30,
   layout_config = {
@@ -33,13 +34,13 @@ local opts = {
     horizontal = { mirror = false },
     vertical = { mirror = false },
   },
-  border = false,
-  -- borderchars = {
-  --   prompt = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-  --   results = { "─", "│", "─", "│", "╭", "╮", "┤", "├" },
-  --   preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-  -- },
-  show_line = true
+  border = true,
+  borderchars = {
+    prompt = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
+    results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
+    preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+  },
+  show_line = true,
 }
 
 local function append_bufnr(opts)
@@ -52,6 +53,8 @@ local function add_field_symbols(opts)
   if vim.o.filetype == "lua" then
     table.insert(opts.symbols, "field")
     table.insert(opts.symbols, "array")
+  elseif vim.o.filetype == "html" then
+    table.insert(opts.symbols, "field")
   end
   return opts
 end
