@@ -11,6 +11,7 @@ vim.o.relativenumber = true
 lvim.builtin.indentlines.active = false
 -- lvim.transparent_window = true
 lvim.reload_config_on_save = false
+lvim.builtin.telescope.defaults.prompt_prefix = " "
 
 vim.o.autochdir = true
 vim.o.completeopt = "menu,menuone"
@@ -201,6 +202,12 @@ lvim.builtin.telescope.defaults.selection_caret = "> "
 -- loading the components into here
 -- maybe better to copy the components from that file and put in my config, in the event they change stuff
 lvim.builtin.lualine.sections = require('modules/lualine').configure()
+
+
+
+-- weird workaround for dracula
+local theme = (string.find(lvim.colorscheme, "dracula")) and "dracula" or "auto"
+lvim.builtin.lualine.options.theme = theme
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
