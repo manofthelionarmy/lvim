@@ -42,6 +42,8 @@ dracula.setup({
     CmpItemAbbr = { fg = colors.fg},
     -- CmpItemKind = { fg = colors.comment},
     CmpItemMenu = { fg = colors.comment},
+    CmpItemAbbrDeprecated = { bg = 'NONE', strikethrough = true },
+    CmpItemKindOperator = { fg = colors.yellow },
 
 
     --CocPumShortcut = { fg = colors.purple },
