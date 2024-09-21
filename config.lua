@@ -497,6 +497,7 @@ require('modules/icons')
 -- https://www.lunarvim.org/docs/troubleshooting#update-node
 -- Make sure to run LvimCacheReset
 --
+-- Need to add to skip server so it doesn't automatically install with defaults; i.e. prevents our override
 vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "csharp_ls" })
 vim.tbl_map(function(server)
   return server ~= "emmet_ls"
