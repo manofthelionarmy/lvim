@@ -24,13 +24,6 @@ dracula.setup({
     ALEVirtualTextError = {fg=colors.red, bg=frappe.base},
     ALEVirtualTextInfo = {fg='#94e2d5', bg=colors.bg},
     ALEInfoSign = {fg='#94e2d5'},
-    -- Cmp Completion
-    --CocFloating = { bg = colors.nontext },
-    -- LspFloatWinBorder = { bg = colors.nontext},
-    -- LspFloatWinNormal = { bg = colors.nontext, fg = colors.nontext },
-    -- Float = { bg = colors.nontext },
-    -- CmpItemMenu = { bg = colors.nontext },
-    -- CmpItemKind = { bg = colors.nontext},
 
 
     Pmenu = { bg = colors.nontext },
@@ -44,6 +37,12 @@ dracula.setup({
     CmpItemMenu = { fg = colors.comment},
     CmpItemAbbrDeprecated = { bg = 'NONE', strikethrough = true },
     CmpItemKindOperator = { fg = colors.yellow },
+    CmpItemKindVariable = { fg = colors.bright_blue },
+
+
+    CompeDocumentation = { bg = colors.nontext },
+    -- Document
+    NormalFloat = { bg = colors.menu },
 
 
     --CocPumShortcut = { fg = colors.purple },

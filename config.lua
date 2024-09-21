@@ -429,6 +429,9 @@ lvim.plugins = {
   {
     "Mofiqul/dracula.nvim",
     branch = "main"
+  },
+  {
+    'Decodetalkers/csharpls-extended-lsp.nvim'
   }
   -- {
   --   "onsails/lspkind.nvim",
@@ -493,6 +496,8 @@ require('modules/icons')
 -- Emmet is part of the skipped servers. I have to configure it myself, or remove it from skipped servers list
 -- https://www.lunarvim.org/docs/troubleshooting#update-node
 -- Make sure to run LvimCacheReset
+--
+vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "csharp_ls" })
 vim.tbl_map(function(server)
   return server ~= "emmet_ls"
 end, lvim.lsp.automatic_configuration.skipped_servers)
@@ -527,3 +532,7 @@ require("telescope").load_extension("flutter")
 -- doing this as a work around, indenting for dart is really weird
 -- setting cindent is helpful, since dart is a c-style language
 vim.cmd [[autocmd! FileType dart setlocal cindent]]
+
+lvim.lsp.on_init_callback = function(client)
+ client.offset_encoding = "utf-8"
+end
